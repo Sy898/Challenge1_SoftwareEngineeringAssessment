@@ -1,0 +1,249 @@
+Test Case:
+
+Note: Changed Phone Model and Software to censor information
+
+POST /api/images
+
+Successful Result:
+    {
+      "filename": "20240225_142303.jpg",
+      "id": "a6c838d4-58cf-4e19-ad63-54597bf90108",
+      "status": "processing"
+    }
+
+Failed Result(Duplicate file name)
+    {
+      "detail": "File with this filename already uploaded"
+    }
+
+Failed Result(Unsupported file type)
+    {
+      "detail": "Only JPG and PNG files are supported"
+    }
+
+GET /api/images
+
+    [
+      {
+        "filename": "20240225_142303.jpg",
+        "status": "processed"
+      },
+      {
+        "filename": "20240225_161225.jpg",
+        "status": "processed"
+      },
+      {
+        "filename": "funny cat.jpeg",
+        "status": "processed"
+      },
+      {
+        "filename": "thumb1_20240225_142303.jpg",
+        "status": "processed"
+      },
+      {
+        "filename": "thumb1_20240225_161225.jpg",
+        "status": "processed"
+      },
+      {
+        "filename": "thumb1_funny cat.jpeg",
+        "status": "processed"
+      },
+      {
+        "filename": "thumb2_20240225_142303.jpg",
+        "status": "processed"
+      },
+      {
+        "filename": "thumb2_20240225_161225.jpg",
+        "status": "processed"
+      },
+      {
+        "filename": "thumb2_funny cat.jpeg",
+        "status": "processed"
+      }
+    ]
+
+GET /api/images/{image_id}
+
+Successful:
+
+Input:
+
+    image_id: a6c838d4-58cf-4e19-ad63-54597bf90108
+
+Output:
+
+    {
+      "filename": "20240225_142303.jpg",
+      "status": "processed",
+      "caption": "there is a motorcycle that is parked in a garage",
+      "thumbnail_size_200x200": "images/thumb1_20240225_142303.jpg",
+      "thumbnail_size_50x50": "images/thumb2_20240225_142303.jpg",
+      "metadata": {
+        "dimensions": [
+          4000,
+          3000
+        ],
+        "format": "JPEG",
+        "size": "3592114 bytes",
+        "date time of the file": "2025-09-16 20:25:33.681641"
+      },
+      "exif": {
+        "ImageWidth": "4000",
+        "ImageLength": "3000",
+        "ResolutionUnit": "2",
+        "ExifOffset": "226",
+        "Make": "samsung",
+        "Model": "SM-A000A",
+        "Software": "A000000000000",
+        "Orientation": "6",
+        "DateTime": "2024:02:25 14:23:03",
+        "YCbCrPositioning": "1",
+        "XResolution": "72.0",
+        "YResolution": "72.0",
+        "ExifVersion": "0220",
+        "ShutterSpeedValue": "0.030303030303030304",
+        "ApertureValue": "2.52",
+        "DateTimeOriginal": "2024:02:25 14:23:03",
+        "DateTimeDigitized": "2024:02:25 14:23:03",
+        "ExposureBiasValue": "0.0",
+        "MaxApertureValue": "2.52",
+        "MeteringMode": "2",
+        "ColorSpace": "1",
+        "Flash": "0",
+        "FocalLength": "9.0",
+        "ExifImageWidth": "4000",
+        "ExifImageHeight": "3000",
+        "DigitalZoomRatio": "3.0",
+        "FocalLengthIn35mmFilm": "72",
+        "SceneCaptureType": "0",
+        "OffsetTime": "+08:00",
+        "OffsetTimeOriginal": "+08:00",
+        "SubsecTime": "681",
+        "SubsecTimeOriginal": "681",
+        "SubsecTimeDigitized": "681",
+        "ExposureTime": "0.030303030303030304",
+        "FNumber": "2.4",
+        "ImageUniqueID": "M10XLNF00MM",
+        "ExposureProgram": "2",
+        "ISOSpeedRatings": "1000",
+        "ExposureMode": "0",
+        "WhiteBalance": "0"
+      }
+    }
+
+When EXIF data not present:
+
+Input:
+
+    image_id: 33cb2dea-7c4f-4803-b0be-606504172c8b
+
+Output:
+
+    {
+      "filename": "funny cat.jpeg",
+      "status": "processed",
+      "caption": "there is a cat that is holding a sandwich in its paws",
+      "thumbnail_size_200x200": "images/thumb1_funny cat.jpeg",
+      "thumbnail_size_50x50": "images/thumb2_funny cat.jpeg",
+      "metadata": {
+        "dimensions": [
+          1242,
+          1556
+        ],
+        "format": "JPEG",
+        "size": "169008 bytes",
+        "date time of the file": "2025-09-16 20:26:39.500014"
+      },
+      "exif": "No EXIF data found"
+    }
+
+Unsuccessful:
+
+Input:
+
+    image_id: aaa
+
+Output:
+
+    {
+      "detail": "Image ID not found"
+    }
+
+GET /api/images/{image_id}/thumbnails/{size}
+
+Successful:
+
+Input:
+
+    image_id:96eeca95-66da-4516-806d-572f06055559
+    size:medium
+
+Output:
+
+[medium thumbnail size image shown below]
+
+Unsuccessful 1(image_id not found):
+
+Input:
+
+    image_id: aaa
+    size: medium
+
+Output:
+
+    {
+      "detail": "Image ID not found"
+    }
+
+Unsuccessful 2(size not found):
+
+Input:
+
+    image_id: 96eeca95-66da-4516-806d-572f06055559
+    size: extra large
+
+Output:
+
+    Error message popup:
+
+    Please correct the following validation errors and try again.
+        For 'size': Value must follow pattern small|medium.
+
+GET /api/stats
+    {
+      "total_processed": 2,
+      "success_count": 2,
+      "failure_count": 0,
+      "success_rate_percent": 100,
+      "failure_rate_percent": 0,
+      "average_processing_time_sec": 1.9202625751495361
+    }
+
+output.txt:
+
+filename: 20240225_161225.jpg
+image id: 9a4d66eb-a518-4c2e-89d0-97a3039e1452
+captions: there is a pink display with a lot of items on it
+thumbnail_size_200x200: images/thumb1_20240225_161225.jpg
+thumbnail_size_50x50: images/thumb2_20240225_161225.jpg
+metadata: {'dimensions': (4000, 3000), 'format': 'JPEG', 'size': '3592368 bytes', 'date time of the file': '2025-09-16 20:20:44.216684'}
+exif: {'ImageWidth': '4000', 'ImageLength': '3000', 'ResolutionUnit': '2', 'ExifOffset': '226', 'Make': 'samsung', 'Model': 'SM-G998B', 'Software': 'G998BXXS9FXA3', 'Orientation': '6', 'DateTime': '2024:02:25 16:12:26', 'YCbCrPositioning': '1', 'XResolution': '72.0', 'YResolution': '72.0', 'ExifVersion': '0220', 'ShutterSpeedValue': '0.008', 'ApertureValue': '2.27', 'DateTimeOriginal': '2024:02:25 16:12:26', 'DateTimeDigitized': '2024:02:25 16:12:26', 'BrightnessValue': '5.29', 'ExposureBiasValue': '0.0', 'MaxApertureValue': '2.27', 'MeteringMode': '2', 'Flash': '0', 'FocalLength': '2.2', 'ColorSpace': '1', 'ExifImageWidth': '4000', 'DigitalZoomRatio': '1.0', 'FocalLengthIn35mmFilm': '13', 'SceneCaptureType': '0', 'OffsetTime': '+08:00', 'OffsetTimeOriginal': '+08:00', 'SubsecTime': '326', 'SubsecTimeOriginal': '326', 'SubsecTimeDigitized': '326', 'ExifImageHeight': '3000', 'ExposureTime': '0.008', 'FNumber': '2.2', 'ImageUniqueID': 'F12XSNF00NM', 'ExposureProgram': '2', 'ISOSpeedRatings': '50', 'ExposureMode': '0', 'WhiteBalance': '0'}
+status: processed
+filename: 20240225_142303.jpg
+image id: a6c838d4-58cf-4e19-ad63-54597bf90108
+captions: there is a motorcycle that is parked in a garage
+thumbnail_size_200x200: images/thumb1_20240225_142303.jpg
+thumbnail_size_50x50: images/thumb2_20240225_142303.jpg
+metadata: {'dimensions': (4000, 3000), 'format': 'JPEG', 'size': '3592114 bytes', 'date time of the file': '2025-09-16 20:25:33.681641'}
+exif: {'ImageWidth': '4000', 'ImageLength': '3000', 'ResolutionUnit': '2', 'ExifOffset': '226', 'Make': 'samsung', 'Model': 'SM-G998B', 'Software': 'G998BXXS9FXA3', 'Orientation': '6', 'DateTime': '2024:02:25 14:23:03', 'YCbCrPositioning': '1', 'XResolution': '72.0', 'YResolution': '72.0', 'ExifVersion': '0220', 'ShutterSpeedValue': '0.030303030303030304', 'ApertureValue': '2.52', 'DateTimeOriginal': '2024:02:25 14:23:03', 'DateTimeDigitized': '2024:02:25 14:23:03', 'ExposureBiasValue': '0.0', 'MaxApertureValue': '2.52', 'MeteringMode': '2', 'ColorSpace': '1', 'Flash': '0', 'FocalLength': '9.0', 'ExifImageWidth': '4000', 'ExifImageHeight': '3000', 'DigitalZoomRatio': '3.0', 'FocalLengthIn35mmFilm': '72', 'SceneCaptureType': '0', 'OffsetTime': '+08:00', 'OffsetTimeOriginal': '+08:00', 'SubsecTime': '681', 'SubsecTimeOriginal': '681', 'SubsecTimeDigitized': '681', 'ExposureTime': '0.030303030303030304', 'FNumber': '2.4', 'ImageUniqueID': 'M10XLNF00MM', 'ExposureProgram': '2', 'ISOSpeedRatings': '1000', 'ExposureMode': '0', 'WhiteBalance': '0'}
+status: processed
+
+when EXIF is not found:
+filename: funny cat.jpeg
+image id: 33cb2dea-7c4f-4803-b0be-606504172c8b
+captions: there is a cat that is holding a sandwich in its paws
+thumbnail_size_200x200: images/thumb1_funny cat.jpeg
+thumbnail_size_50x50: images/thumb2_funny cat.jpeg
+metadata: {'dimensions': (1242, 1556), 'format': 'JPEG', 'size': '169008 bytes', 'date time of the file': '2025-09-16 20:26:39.500014'}
+exif: No EXIF data found
+status: processed
