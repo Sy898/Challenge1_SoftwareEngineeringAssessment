@@ -1,22 +1,22 @@
-**Project Overview:**
+# **Project Overview:**
 
-Challenge 1: Software Engineering Assessment
+## Challenge 1: Software Engineering Assessment
 
-Challenge Overview
+### Challenge Overview
 
 Create an image processing pipeline API that automatically processes images, generates thumbnails, extracts
 metadata, and provides analysis through API endpoints.
 
 ---------------------------------
 
-**Notes:** 
+## **Notes:**
 
 Changed Phone Model and Software to censor information
 
 Duplicate file names and unsupported file types does not count towards failure as they are rejected before processing.
 
 ---
-**Installation Steps:**
+# **Installation Steps:**
 
 pip install fastapi
 
@@ -29,11 +29,11 @@ pip install pillow
 pip install transformers torch torchvision
 
 ------------------------------------
-**API Documentation:**
+## **API Documentation:**
 
 URL: http://127.0.0.1:8000/docs
 
-1. Upload Image
+### 1. Upload Image
 
 Endpoint: POST /api/images
 
@@ -136,7 +136,7 @@ Unsupported file type → 400 Bad Request
 
 Note: The API does not return 500 Internal Server Error for processing failures. Instead, failures are logged in the database with "status": "failed".
 
-2. List All Images
+### 2. List All Images
 
 Endpoint: GET /api/images
 Description: Lists all images currently stored, including thumbnails, along with their processing status.
@@ -170,7 +170,7 @@ Response:
       }
     ]
 
-3. Get Image Details
+### 3. Get Image Details
 
 Endpoint: GET /api/images/{image_id}
 Description: Get details of a specific image by its unique ID.
@@ -288,7 +288,7 @@ Output:
       "detail": "Image ID not found"
     }
 
-4. Get Thumbnail
+### 4. Get Thumbnail
 
 Endpoint: GET /api/images/{image_id}/thumbnails/{size}
 Description: Retrieve a small (50x50) or medium (200x200) thumbnail for the specified image.
@@ -341,7 +341,7 @@ Output:
     Please correct the following validation errors and try again.
         For 'size': Value must follow pattern small|medium.
 
-5. Get Processing Statistics
+### 5. Get Processing Statistics
 
 Endpoint: GET /api/stats
 Description: Returns statistics about image processing including total processed images, success/failure count, success/failure rate, and average processing time.
@@ -358,7 +358,9 @@ Response:
     }
 
 ---
-**Example Usage (i.e. how to run the code)**
+## **Example Usage (i.e. how to run the code)**
+
+Clone repository from github. Pull the latest code.
 
 How to run the code:
 
@@ -503,9 +505,9 @@ Enter image id for example: 96eeca95-66da-4516-806d-572f06055559
 
 Enter size for example: medium
 
-Response body:
+Response:
 
-[medium sized thumbnail image shown]
+    [medium-sized thumbnail image displayed here]
 
 Get stats (GET /api/stats):
 
@@ -521,7 +523,7 @@ Example:
     }
 
 -----------------------
-**Processing pipeline explanation**
+## **Processing pipeline explanation**
 
 On Terminal:
 
@@ -531,7 +533,7 @@ Go to http://127.0.0.1:8000/docs
 
 When a user uploads an image through POST /api/images, the system starts a non-blocking processing pipeline:
 
-1. Upload & Check
+### 1. Upload & Check
 
 The user uploads an image via /api/images.
 
@@ -543,7 +545,7 @@ If the file type is JPG, JPEG or PNG -> rejects others.
 
 If the file extension is .jpg, .jpeg or .png -> rejects others.
 
-2. Save Image
+### 2. Save Image
 
 The uploaded image is saved in the images/ folder. If images/ folder does not exist, create folder.
 
@@ -551,7 +553,7 @@ If folder missing -> created at app start
 
 Its status is marked as "processing".
 
-3. Process Image
+### 3. Process Image
 
 Open & Convert: Open the image with Pillow and have 2 versions. img opened as original, img2 converts img to RGB. This prevents the files from opening twice.
 
@@ -567,7 +569,7 @@ EXIF Data: Extract metadata using original image that was not converted to RGB (
 
 Metadata: Collect basic info: dimensions, format, file size, upload time.
 
-4. Store & Return
+### 4. Store & Return
 
 The process is non-blocking: the API immediately returns a unique image ID (the assigned UUID) to the user.
 
@@ -581,7 +583,7 @@ The API immediately returns only {filename, image_id, status="processing"}.
 
 Full details (caption, metadata, EXIF, thumbnails) can be retrieved via GET /api/images/{image_id} after processing completes.
 
-5. Error Handling
+### 5. Error Handling
 
 The POST /api/images always returns 200 with "status": "processing".
 
@@ -593,7 +595,7 @@ Instead, the image status will be "failed" in the background.
 
 Users can see failed processing when they call GET /api/images or GET /api/images/{image_id}.
 
-6. Other Endpoints
+### 6. Other Endpoints
 
 /api/images: List all uploaded images with status.
 
