@@ -1,0 +1,16 @@
+Clone repository from GitHub. Pull the latest code.
+
+Installation Steps:
+pip install fastapi
+pip install uvicorn
+pip install python-multipart
+pip install pillow
+pip install transformers torch torchvision
+
+On Terminal, Start the server:
+
+    uvicorn main:app --reload
+
+Open API Docs(FastAPI)
+
+    Go to http://127.0.0.1:8000/docs on browser
