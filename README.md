@@ -360,7 +360,9 @@ Response:
 ---
 ## **Example Usage (i.e. how to run the code)**
 
-Clone repository from github. Pull the latest code.
+Clone repository from GitHub. Pull the latest code.
+
+Install based on installation steps shown above.
 
 How to run the code:
 
@@ -370,7 +372,7 @@ On Terminal, Start the server:
     
 Open API Docs(FastAPI)
     
-    Go to http://127.0.0.1:8000/docs
+    Go to http://127.0.0.1:8000/docs on browser
 
 Firstly, upload an image(POST /api/images):
 
