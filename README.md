@@ -182,12 +182,13 @@ Responses:
 
 200 OK – Returns the same structure as the `POST /api/images` response
 
-Successful:
-Input:
+#### Successful:
+
+**Input:**
 
     image_id: a6c838d4-58cf-4e19-ad63-54597bf90108
 
-Output:
+**Output:**
 
     {
       "filename": "20240225_142303.jpg",
@@ -248,13 +249,13 @@ Output:
       }
     }
 
-When EXIF data not present:
+#### When EXIF data not present:
 
-Input: 
+**Input:** 
 
     image_id: 33cb2dea-7c4f-4803-b0be-606504172c8b
 
-Output:
+**Output:**
 
     {
       "filename": "funny cat.jpeg",
@@ -276,12 +277,13 @@ Output:
 
 404 Not Found – Image ID does not exist
 
-Unsuccessful:
-Input:
+#### Unsuccessful:
+
+**Input:**
 
     image_id: aaa
 
-Output:
+**Output:**
 
     {
       "detail": "Image ID not found"
@@ -302,38 +304,38 @@ Responses:
 
 200 OK – Returns the thumbnail image as a file
 
-Input:
+**Input:**
 
     image_id:a6c838d4-58cf-4e19-ad63-54597bf90108
     size:medium
 
-Output:
+**Output:**
 
 [medium thumbnail size image shown below]
 
 404 Not Found – Image ID or thumbnail not found
 
-Unsuccessful 1(image_id not found):
+#### Unsuccessful 1(image_id not found):
 
-Input:
+**Input:**
 
     image_id: aaa
     size: medium
 
-Output:
+**Output:**
 
     {
       "detail": "Image ID not found"
     }
 
-Unsuccessful 2(size not found):
+#### Unsuccessful 2(size not found):
 
-Input:
+**Input:**
 
     image_id: a6c838d4-58cf-4e19-ad63-54597bf90108
     size: extra large
 
-Output:
+**Output:**
 
     Error message popup:
 
