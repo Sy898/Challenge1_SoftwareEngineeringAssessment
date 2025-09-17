@@ -311,7 +311,7 @@ Responses:
 
 **Output:**
 
-[medium thumbnail size image shown below]
+[medium thumbnail size image shown here]
 
 404 Not Found – Image ID or thumbnail not found
 
